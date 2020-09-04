@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        .container{
+            height: 480px;
+            width: 800px;
+            margin: 0 auto;
+            position: relative;
+            top: 70px;
+            overflow: hidden;
+        }
+        #imgbox{
+            width: 3200px;
+            height: 480px;
+            position: absolute;
+            left: 0;
+        }
+        #imgbox ul li img{
+            width: 800px;
+            height: 480px;
+            float: left;
+        }
+        ul li{
+            list-style-type: none;
+            display: inline;
+        }
+        .container span,.container label{
+            width: 50px;
+            height: 45px;
+            line-height: 35px;
+            font-size: 70px;
+            padding: 0;
+            position: absolute;
+            top: 210px;
+            z-index: 5;
+            color: #fff;
+            text-align: center;
+            opacity: 0.5;
+        }
+        .container span:hover,.container label:hover{
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        .container span{
+            left: -9px;
+        }
+        .container label{
+            right: -9px
+        }
+        .list{
+            width: 180px;
+            height: 30px;
+            position: absolute;
+            bottom: 15px;
+            z-index: 5;
+            left: 100px;
+        }
+        .list ul{
+            width: 180px;
+            height: 30px;
+        }
+        .list ul li{
+            width: 10px;
+            height: 10px;
+            list-style-type: none;
+            background-color: #fff;
+            border-radius: 100%;
+            float: left;
+            margin-left: 15px;
+            opacity: 0.5;
+        }
+        .list ul li:hover{
+            opacity: 0.7;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span id="prev"><</span>
+        <div id="imgbox">
+            <ul>
+                <li><img src="image/5a0ea84446124.jpg" alt=""></li>
+                <li><img src="image/5a0ea846812dd.jpg" alt=""></li>
+                <li><img src="image/5a0ea8494313a.jpg" alt=""></li>
+                <li><img src="image/5a0ea84943b9b.jpg" alt=""></li>
+            </ul>
+        </div>
+        <label for="" id="next">></label>
+        <div class="list">
+            <ul id="listItems">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        var prev = document.getElementById('prev')
+        var next = document.getElementById('next')
+        var img = document.getElementById('imgbox')
+        var items = document.getElementById('listItems').children
+        var leftPosition = 0
+        var btnIndex = 0
+        var length = items.length
+        var timer = null
+
+        items[0].style.opacity = 0.7
+        var showCurrent = function (index) {
+            for (var j = 0; j < length; j++) {
+                if (j == index) {
+                    items[j].style.opacity = 0.7
+                } else {
+                    items[j].style.opacity = 0.5
+                }
+            }
+        }
+
+        var prevClick = function(event) {
+            leftPosition += 800
+            btnIndex -= 1
+            if (leftPosition > 0) {
+                leftPosition = -2400
+            }
+            if (btnIndex < 0) {
+                btnIndex = 3
+            }
+            img.style.left = leftPosition + "px"
+            showCurrent(btnIndex)
+        }
+
+        var nextClick = function(event) {
+            leftPosition -= 800
+            btnIndex += 1
+            if (leftPosition < -2400) {
+                leftPosition = 0
+            }
+            if (btnIndex > 3) {
+                btnIndex = 0
+            }
+            img.style.left = leftPosition + "px"
+            showCurrent(btnIndex)
+        }
+        
+        function autoPlay () {
+            timer = setInterval(function () {
+                leftPosition -= 800
+                btnIndex += 1
+                if (leftPosition < -2400) {
+                    leftPosition = 0
+                }
+                if (btnIndex > 3) {
+                    btnIndex = 0
+                }
+                img.style.left = leftPosition + "px"
+                showCurrent(btnIndex)
+            }, 3000)
+        }
+        autoPlay()
+        
+
+        prev.onclick = prevClick
+
+        next.onclick = nextClick
+
+        
+        for (var i = 0; i < length; i++) {
+
+            leftPosition = i*(-800)
+            btnIndex = i
+
+            if (leftPosition < -2400) {
+                leftPosition = 0
+            }
+            if (leftPosition > 0) {
+                leftPosition = -2400
+            }
+
+            items[i].onclick = (function(left, index) {
+                return function () {
+                    console.log(left);
+                    img.style.left = left + "px"
+                    showCurrent(index)
+                }
+            })(leftPosition, i)
+        }
+
+        img.onmouseenter = function () {
+            clearInterval(timer)
+        }
+
+        img.onmouseleave = function () {
+            autoPlay()
+        }
+
+
+
+        
+        
+
+
+    </script>
+</body>
+</html>
