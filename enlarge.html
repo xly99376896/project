@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+        .container{
+            width: 575px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        .smallbox{
+            width: 280px;
+            height: 340px;
+            position: relative;
+            float: left;
+        }
+        .smallbox img{
+            width: 280px;
+            height: 340px;
+            position: absolute;
+        }
+        #shadow{
+            width: 140px;
+            height: 170px;
+            position: absolute;
+            background-color: rgba(145, 200,200, 0.4);
+            left: 50px;
+            top: 20px;
+        }
+        .largebox{
+            width: 280px;
+            height: 340px;
+            float: left;
+            overflow: hidden;
+            margin-left: 15px;
+            position: relative;
+        }
+        .largebox img{
+            width: 560px;
+            height: 680px;
+            position: absolute;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="box">
+        <div class="smallbox" id="smallbox">
+            <img id="small" src="image/5a0ea846812db.jpg" alt="">
+            <div id="shadow"></div>
+        </div>
+        <div class="largebox">
+            <img id="large" src="image/5a0ea846812db.jpg" alt="">
+        </div>
+    </div>
+    
+    <script>
+
+        (function () {
+            smallbox.onmousemove = function (event) {
+                var shadow = document.getElementById('shadow')
+                var small = document.getElementById('small')
+                var large = document.getElementById('large')
+                var smallbox = document.getElementById('smallbox')
+                var box = document.getElementById('box')
+
+                var offsettop = box.offsetTop
+                var offsetleft = box.offsetLeft
+                console.log(offsettop);
+                console.log(offsetleft);
+
+                var px = event.pageX
+                var py = event.pageY
+                console.log(px);
+                console.log(py);
+
+                var shadowx = parseInt(getComputedStyle(shadow,null).width || shadow.currentStyle.width) 
+                var shadowy = parseInt(getComputedStyle(shadow,null).height || shadow.currentStyle.height) 
+                console.log(shadowx/2);
+                console.log(shadowy/2);
+
+                var posL = px - offsetleft - shadowx/2
+                var posT = py - offsettop - shadowy/2
+
+                
+
+                var smallboxW = parseInt(getComputedStyle(smallbox,null).width || shadow.currentStyle.width)
+                var smallboxH = parseInt(getComputedStyle(smallbox,null).height || shadow.currentStyle.height)
+
+                var maxX = smallboxW - shadowx
+                var maxY = smallboxH - shadowy
+
+                if (posL <= 0) {
+                    posL = 0
+                }
+                if (posT <= 0) {
+                    posT = 0
+                }
+                if (posL >= maxX) {
+                    posL = maxX
+                }
+                if (posT >= maxY) {
+                    posT = maxY
+                }
+
+                shadow.style.left = posL + "px"
+                shadow.style.top = posT + "px"
+                large.style.left = -(posL * 2) + 'px'
+                large.style.top = -(posT * 2) + 'px'
+
+
+                
+            }
+
+        })()
+        
+
+
+
+    </script>
+</body>
+</html>
