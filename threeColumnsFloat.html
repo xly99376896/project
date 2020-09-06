@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        div{
+            text-align: center;
+            font-size: 30px;
+            min-height:400px;
+        }
+        .left{
+            float: left;
+            width: 300px;
+            background-color: #cc5;
+        }
+        .right{
+            float: right;
+            width: 300px;
+            background-color: #5cc;
+        }
+        .center{
+            margin-left: 300px;
+            margin-right: 300px;
+            background-color: #fcc;
+        }
+        .main::after{
+            content:'';
+            display: block;
+            height: 0;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <article class="main">
+        <div class="left">左</div>
+        <div class="right">右</div>
+        <div class="center">中</div>
+    </article>
+</body>
+</html>
