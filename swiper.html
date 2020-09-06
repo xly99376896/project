@@ -108,54 +108,41 @@
     </div>
 
     <script>
-        var prev = document.getElementById('prev')
-        var next = document.getElementById('next')
-        var img = document.getElementById('imgbox')
-        var items = document.getElementById('listItems').children
-        var leftPosition = 0
-        var btnIndex = 0
-        var length = items.length
-        var timer = null
+        (function() {
+            var prev = document.getElementById('prev')
+            var next = document.getElementById('next')
+            var img = document.getElementById('imgbox')
+            var items = document.getElementById('listItems').children
+            var leftPosition = 0
+            var btnIndex = 0
+            var length = items.length
+            var timer = null
 
-        items[0].style.opacity = 0.7
-        var showCurrent = function (index) {
-            for (var j = 0; j < length; j++) {
-                if (j == index) {
-                    items[j].style.opacity = 0.7
-                } else {
-                    items[j].style.opacity = 0.5
+            items[0].style.opacity = 0.7
+            var showCurrent = function (index) {
+                for (var j = 0; j < length; j++) {
+                    if (j == index) {
+                        items[j].style.opacity = 0.7
+                    } else {
+                        items[j].style.opacity = 0.5
+                    }
                 }
             }
-        }
 
-        var prevClick = function(event) {
-            leftPosition += 800
-            btnIndex -= 1
-            if (leftPosition > 0) {
-                leftPosition = -2400
+            var prevClick = function(event) {
+                leftPosition += 800
+                btnIndex -= 1
+                if (leftPosition > 0) {
+                    leftPosition = -2400
+                }
+                if (btnIndex < 0) {
+                    btnIndex = 3
+                }
+                img.style.left = leftPosition + "px"
+                showCurrent(btnIndex)
             }
-            if (btnIndex < 0) {
-                btnIndex = 3
-            }
-            img.style.left = leftPosition + "px"
-            showCurrent(btnIndex)
-        }
 
-        var nextClick = function(event) {
-            leftPosition -= 800
-            btnIndex += 1
-            if (leftPosition < -2400) {
-                leftPosition = 0
-            }
-            if (btnIndex > 3) {
-                btnIndex = 0
-            }
-            img.style.left = leftPosition + "px"
-            showCurrent(btnIndex)
-        }
-        
-        function autoPlay () {
-            timer = setInterval(function () {
+            var nextClick = function(event) {
                 leftPosition -= 800
                 btnIndex += 1
                 if (leftPosition < -2400) {
@@ -166,45 +153,61 @@
                 }
                 img.style.left = leftPosition + "px"
                 showCurrent(btnIndex)
-            }, 3000)
-        }
-        autoPlay()
-        
-
-        prev.onclick = prevClick
-
-        next.onclick = nextClick
-
-        
-        for (var i = 0; i < length; i++) {
-
-            leftPosition = i*(-800)
-            btnIndex = i
-
-            if (leftPosition < -2400) {
-                leftPosition = 0
             }
-            if (leftPosition > 0) {
-                leftPosition = -2400
+            
+            function autoPlay () {
+                timer = setInterval(function () {
+                    leftPosition -= 800
+                    btnIndex += 1
+                    if (leftPosition < -2400) {
+                        leftPosition = 0
+                    }
+                    if (btnIndex > 3) {
+                        btnIndex = 0
+                    }
+                    img.style.left = leftPosition + "px"
+                    showCurrent(btnIndex)
+                }, 3000)
             }
-
-            items[i].onclick = (function(left, index) {
-                return function () {
-                    console.log(left);
-                    img.style.left = left + "px"
-                    showCurrent(index)
-                }
-            })(leftPosition, i)
-        }
-
-        img.onmouseenter = function () {
-            clearInterval(timer)
-        }
-
-        img.onmouseleave = function () {
             autoPlay()
-        }
+            
 
+            prev.onclick = prevClick
+
+            next.onclick = nextClick
+
+            
+            for (var i = 0; i < length; i++) {
+
+                leftPosition = i*(-800)
+                btnIndex = i
+
+                if (leftPosition < -2400) {
+                    leftPosition = 0
+                }
+                if (leftPosition > 0) {
+                    leftPosition = -2400
+                }
+
+                items[i].onclick = (function(left, index) {
+                    return function () {
+                        console.log(left);
+                        img.style.left = left + "px"
+                        showCurrent(index)
+                    }
+                })(leftPosition, i)
+            }
+
+            img.onmouseenter = function () {
+                clearInterval(timer)
+            }
+
+            img.onmouseleave = function () {
+                autoPlay()
+            }
+
+        })()
+        
 
 
         
