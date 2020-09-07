@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            position: relative;
+            margin:0 auto;
+        }
+        .container::after{
+            content:'';
+            display: block;
+            height: 0;
+            clear: both;
+        }
+        .item{
+            padding: 5px;
+            position: absolute;
+        }
+        .item-content{
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        .item-content img{
+            width: 350px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="item">
+            <div class="item-content">
+                <img src="image/1509329413799472.jpg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/1509329455222667.jpg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/1509329491147962.jpg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/1509329592297301.jpg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171111112012_rtcKX.jpeg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171120012815_E5RzH.jpeg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171121133002_f3Gwd.jpeg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171123184728_TtV3J.jpeg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171123185043_J3eX5.png" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171125220325_iw3uc.png" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171126053601_yYCzV.jpeg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171126150616_zMdCy.png" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171126190142_SzCAx.jpeg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171128170500_FWGMy.jpeg" alt="">
+            </div>
+        </div>
+        <div class="item">
+            <div class="item-content">
+                <img src="image/20171130223740_EFRKy.jpeg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            waterFlow("container")
+        }
+        window.onresize = function () {
+            waterFlow("container")
+        }
+        
+        function waterFlow (parent) {
+
+            var container = document.getElementById(parent)
+            var item = container.children
+            var itemWidth = item[0].offsetWidth
+            var screenWidth = document.documentElement.clientWidth
+            
+            var column = Math.floor(screenWidth / itemWidth)
+            container.style.cssText = 'width:' + itemWidth * column + 'px;'
+            
+            var itemHeights = []
+            for (var i = 0; i < item.length; i++) {
+                if (i < column) {
+                    item[i].style.top = 15 + "px"
+                    item[i].style.left = itemWidth * i + "px"
+                    itemHeights[i] = item[i].offsetHeight
+
+                } else {
+                    var minHeight = Math.min.apply(null, itemHeights)
+                    var minIndex = itemHeights.indexOf(minHeight)
+                    
+                    item[i].style.top = minHeight + "px"
+                    item[i].style.left = item[minIndex].offsetLeft + "px"
+                    
+                    itemHeights[minIndex] += item[i].offsetHeight
+                }
+            }
+        }
+
+       
+    </script>
+</body>
+</html>
